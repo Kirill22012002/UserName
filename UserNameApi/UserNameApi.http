@@ -1,0 +1,6 @@
+@UserNameApi_HostAddress = http://localhost:5147
+
+GET {{UserNameApi_HostAddress}}/ping/
+Accept: application/json
+
+###
