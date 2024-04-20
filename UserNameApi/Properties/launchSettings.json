@@ -34,7 +34,8 @@
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
       "environmentVariables": {
         "ASPNETCORE_HTTPS_PORTS": "8081",
-        "ASPNETCORE_HTTP_PORTS": "8080"
+        "ASPNETCORE_HTTP_PORTS": "8080",
+        "DbConnection": "Host=127.0.0.1;Port=5432;Database=UserNameDb;Username=your_postgres_username;Password=your_postgres_password"
       },
       "publishAllPorts": true,
       "useSSL": true

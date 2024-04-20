@@ -14,7 +14,7 @@ builder.Services.AddSwaggerGen();
 string dbConnectionString = Environment.GetEnvironmentVariable("DbConnection");
 
 builder.Services.AddDbContext<WorkoutDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString(dbConnectionString)));
+    options.UseNpgsql(dbConnectionString));
 
 builder.Services.AddTransient<WorkoutExcerciseService>();
 builder.Services.AddTransient<WorkoutSetService>();
