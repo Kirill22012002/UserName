@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using UserNameApi;
+using UserNameApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<WorkoutDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
+builder.Services.AddTransient<WorkoutExcerciseService>();
 
 var app = builder.Build();
 

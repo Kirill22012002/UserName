@@ -24,12 +24,12 @@ public class WorkoutExcerciseService
         return newExcercise.Id;
     }
 
-    public async Task<List<WorkoutExcercise>> GetAllExcercises()
+    public async Task<List<WorkoutExcercise>> GetAllExcercisesAsync()
     {
         return await _dbContext.WorkoutExcercises.ToListAsync();
     }
 
-    public async Task<WorkoutExcercise> GetExcerciseById(long id)
+    public async Task<WorkoutExcercise> GetExcerciseByIdAsync(long id)
     {
         return await _dbContext.WorkoutExcercises.SingleOrDefaultAsync(x => x.Id == id);
     }
