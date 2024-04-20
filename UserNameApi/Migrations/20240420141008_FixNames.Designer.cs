@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UserNameApi;
 
@@ -11,9 +12,11 @@ using UserNameApi;
 namespace UserNameApi.Migrations
 {
     [DbContext(typeof(WorkoutDbContext))]
-    partial class WorkoutDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240420141008_FixNames")]
+    partial class FixNames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,7 +41,7 @@ namespace UserNameApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Workouts", (string)null);
+                    b.ToTable("Workouts");
                 });
 
             modelBuilder.Entity("UserNameApi.Models.DbModels.WorkoutExcercise", b =>
@@ -57,7 +60,7 @@ namespace UserNameApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WorkoutExcercises", (string)null);
+                    b.ToTable("WorkoutExcercises");
                 });
 
             modelBuilder.Entity("UserNameApi.Models.DbModels.WorkoutSession", b =>
@@ -80,7 +83,7 @@ namespace UserNameApi.Migrations
 
                     b.HasIndex("WorkoutId");
 
-                    b.ToTable("WorkoutSessions", (string)null);
+                    b.ToTable("WorkoutSessions");
                 });
 
             modelBuilder.Entity("UserNameApi.Models.DbModels.WorkoutSet", b =>
@@ -104,7 +107,7 @@ namespace UserNameApi.Migrations
 
                     b.HasIndex("WorkoutSessionId");
 
-                    b.ToTable("WorkoutSets", (string)null);
+                    b.ToTable("WorkoutSets");
                 });
 
             modelBuilder.Entity("UserNameApi.Models.DbModels.WorkoutSession", b =>

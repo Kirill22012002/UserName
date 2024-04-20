@@ -17,6 +17,9 @@ builder.Services.AddDbContext<WorkoutDbContext>(options =>
 
 builder.Services.AddTransient<WorkoutExcerciseService>();
 builder.Services.AddTransient<WorkoutSetService>();
+builder.Services.AddTransient<WorkoutSessionService>();
+builder.Services.AddTransient<WorkoutService>();
+
 
 var app = builder.Build();
 

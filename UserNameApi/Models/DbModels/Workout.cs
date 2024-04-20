@@ -2,7 +2,7 @@
 
 public class Workout : BaseModel
 {
-    public long DateStart { get; set; }
-    public long DateEnd { get; set; }
-    public List<WorkoutSession> WorkoutSessions { get; set; }
+    public long StartDate { get; set; }
+    public long EndDate { get; set; }
+    public List<WorkoutSession> WorkoutSessions { get; set; } = new List<WorkoutSession>();
 }
