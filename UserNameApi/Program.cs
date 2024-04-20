@@ -11,20 +11,20 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<WorkoutDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+string dbConnectionString = Environment.GetEnvironmentVariable("DbConnection");
 
+builder.Services.AddDbContext<WorkoutDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString(dbConnectionString)));
 
 builder.Services.AddTransient<WorkoutExcerciseService>();
 builder.Services.AddTransient<WorkoutSetService>();
 builder.Services.AddTransient<WorkoutSessionService>();
 builder.Services.AddTransient<WorkoutService>();
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+//if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();

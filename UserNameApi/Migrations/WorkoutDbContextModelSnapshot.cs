@@ -2,8 +2,8 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using UserNameApi;
 
 #nullable disable
@@ -18,9 +18,9 @@ namespace UserNameApi.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.4")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("UserNameApi.Models.DbModels.Workout", b =>
                 {
@@ -28,7 +28,7 @@ namespace UserNameApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<long>("EndDate")
                         .HasColumnType("bigint");
@@ -38,7 +38,7 @@ namespace UserNameApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Workouts", (string)null);
+                    b.ToTable("Workouts");
                 });
 
             modelBuilder.Entity("UserNameApi.Models.DbModels.WorkoutExcercise", b =>
@@ -47,17 +47,17 @@ namespace UserNameApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("WorkoutExcercises", (string)null);
+                    b.ToTable("WorkoutExcercises");
                 });
 
             modelBuilder.Entity("UserNameApi.Models.DbModels.WorkoutSession", b =>
@@ -66,7 +66,7 @@ namespace UserNameApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<long?>("WorkoutExcerciseId")
                         .HasColumnType("bigint");
@@ -80,7 +80,7 @@ namespace UserNameApi.Migrations
 
                     b.HasIndex("WorkoutId");
 
-                    b.ToTable("WorkoutSessions", (string)null);
+                    b.ToTable("WorkoutSessions");
                 });
 
             modelBuilder.Entity("UserNameApi.Models.DbModels.WorkoutSet", b =>
@@ -89,13 +89,13 @@ namespace UserNameApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<int>("Reps")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<double>("Weight")
-                        .HasColumnType("float");
+                        .HasColumnType("double precision");
 
                     b.Property<long?>("WorkoutSessionId")
                         .HasColumnType("bigint");
@@ -104,7 +104,7 @@ namespace UserNameApi.Migrations
 
                     b.HasIndex("WorkoutSessionId");
 
-                    b.ToTable("WorkoutSets", (string)null);
+                    b.ToTable("WorkoutSets");
                 });
 
             modelBuilder.Entity("UserNameApi.Models.DbModels.WorkoutSession", b =>
