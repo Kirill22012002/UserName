@@ -16,7 +16,6 @@ public class ExcerciseController : ControllerBase
     public async Task<IActionResult> GetAllExcercises()
     {
         var result = await _service.GetAllExcercisesAsync();
-
         return Ok(result);
     }
 
@@ -24,7 +23,6 @@ public class ExcerciseController : ControllerBase
     public async Task<IActionResult> GetExcerciseById([FromQuery] long id)
     {
         var result = await _service.GetExcerciseByIdAsync(id);
-
         return Ok(result);
     }
 

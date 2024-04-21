@@ -16,7 +16,6 @@ public class SessionController : ControllerBase
     public async Task<IActionResult> AddNewSession([FromQuery] long excerciseId, [FromQuery] long workoutId)
     {
         var result = await _service.AddNewSessionAsync(excerciseId, workoutId);
-
         return Ok(result);
     }
 }

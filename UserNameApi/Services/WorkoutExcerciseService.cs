@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using UserNameApi.Models.DbModels;
+﻿using UserNameApi.Models.DbModels;
 
 namespace UserNameApi.Services;
 
@@ -33,5 +32,4 @@ public class WorkoutExcerciseService
     {
         return await _dbContext.WorkoutExcercises.SingleOrDefaultAsync(x => x.Id == id);
     }
-
 }

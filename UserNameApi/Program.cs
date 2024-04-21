@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using UserNameApi;
 using UserNameApi.Services;
 
@@ -13,7 +12,7 @@ builder.Services.AddSwaggerGen();
 
 //string dbConnectionString = Environment.GetEnvironmentVariable("DbConnection");
 
-string dbConnectionString = "Host=127.0.0.1;Port=5432;Database=UserNameDb;Username=your_postgres_username;Password=your_postgres_password";
+string dbConnectionString = "Host=127.0.0.1;Port=5432;Database=postgres;Username=postgres;Password=changeme";
 
 builder.Services.AddDbContext<WorkoutDbContext>(options =>
     options.UseNpgsql(dbConnectionString));

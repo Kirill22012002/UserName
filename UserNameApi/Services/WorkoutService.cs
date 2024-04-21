@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using UserNameApi.Models.DbModels;
+﻿using UserNameApi.Models.DbModels;
 using UserNameApi.Models.ViewModels;
 
 namespace UserNameApi.Services;
@@ -39,6 +38,8 @@ public class WorkoutService
         var result = _dbContext.Workouts
             .Include(x => x.WorkoutSessions)
             .SingleOrDefault(x => x.Id == workoutId);
+
+        if (result is null) return null;
 
         var workoutSessions = result.WorkoutSessions
             .Select(session => _dbContext.WorkoutSessions

@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using UserNameApi.Models.DbModels;
+﻿using UserNameApi.Models.DbModels;
 
 namespace UserNameApi;
 

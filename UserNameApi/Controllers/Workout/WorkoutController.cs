@@ -16,15 +16,13 @@ public class WorkoutController : ControllerBase
     public async Task<IActionResult> StartNewWorkout()
     {
         var result = await _service.StartNewWorkoutAsync();
-
         return Ok(result);
     }
 
     [HttpGet]
-    public async Task<IActionResult> EndNewWorkout([FromQuery] long workoutId)
+    public async Task<IActionResult> EndWorkout([FromQuery] long workoutId)
     {
         await _service.EndWorkoutAsync(workoutId);
-
         return Ok();
     }
 
@@ -32,7 +30,6 @@ public class WorkoutController : ControllerBase
     public async Task<IActionResult> RemoveWorkout([FromQuery] long workoutId)
     {
         await _service.RemoveWorkoutAsync(workoutId);
-
         return Ok();
     }
 
@@ -40,7 +37,6 @@ public class WorkoutController : ControllerBase
     public IActionResult GetFullWorkoutInfo([FromQuery] long workoutId)
     {
         var result = _service.GetFullWorkoutInfo(workoutId);
-
         return Ok(result);
     }
 }
