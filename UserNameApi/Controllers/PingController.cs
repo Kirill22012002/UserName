@@ -5,8 +5,8 @@ namespace UserNameApi.Controllers;
 public class PingController : ControllerBase
 {
     [HttpGet]
-    public string Ping()
+    public IActionResult Ping()
     {
-        return "pong";
+        return Ok(1);
     }
 }
