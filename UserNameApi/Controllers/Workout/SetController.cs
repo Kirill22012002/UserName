@@ -3,11 +3,11 @@ using UserNameApi.Services;
 namespace UserNameApi.Controllers;
 
 [ApiController]
-[Route("[controller]/[action]")]
-public class WorkoutSetController : ControllerBase
+[Route("api/workout/[controller]/[action]")]
+public class SetController : ControllerBase
 {
     private readonly WorkoutSetService _service;
-    public WorkoutSetController(WorkoutSetService service)
+    public SetController(WorkoutSetService service)
     {
         _service = service;
     }

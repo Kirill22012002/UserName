@@ -1,13 +1,13 @@
 using UserNameApi.Services;
 
-namespace UserNameApi.Controllers;
+namespace UserNameApi.Controllers.Workout;
 
 [ApiController]
-[Route("[controller]/[action]")]
-public class WorkoutExcerciseController : ControllerBase
+[Route("api/workout/[controller]/[action]")]
+public class ExcerciseController : ControllerBase
 {
     private readonly WorkoutExcerciseService _service;
-    public WorkoutExcerciseController(WorkoutExcerciseService service)
+    public ExcerciseController(WorkoutExcerciseService service)
     {
         _service = service;
     }

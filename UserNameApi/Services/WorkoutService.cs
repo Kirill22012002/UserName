@@ -26,15 +26,6 @@ public class WorkoutService
         return newWorkout.Id;
     }
 
-    public async Task AddNewSessionToWorkoutAsync(long sessionId, long workoutId)
-    {
-        var session = _dbContext.WorkoutSessions.SingleOrDefault(x => x.Id == sessionId);
-        var workout = _dbContext.Workouts.SingleOrDefault(x => x.Id == workoutId);
-
-        workout.WorkoutSessions.Add(session);
-        await _dbContext.SaveChangesAsync();
-    }
-
     public async Task EndWorkoutAsync(long workoutId)
     {
         long endDate = GetUnixTimeNow();
@@ -75,6 +66,12 @@ public class WorkoutService
         };
         
         return viewModel;
+    }
+
+    public async Task RemoveWorkoutAsync(long workoutId)
+    {
+        _dbContext.Workouts.Remove(_dbContext.Workouts.SingleOrDefault(x => x.Id == workoutId));
+        await _dbContext.SaveChangesAsync();
     }
 
     private long GetUnixTimeNow()

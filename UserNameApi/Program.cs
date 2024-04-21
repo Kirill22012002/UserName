@@ -11,7 +11,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-string dbConnectionString = Environment.GetEnvironmentVariable("DbConnection");
+//string dbConnectionString = Environment.GetEnvironmentVariable("DbConnection");
+
+string dbConnectionString = "Host=127.0.0.1;Port=5432;Database=UserNameDb;Username=your_postgres_username;Password=your_postgres_password";
 
 builder.Services.AddDbContext<WorkoutDbContext>(options =>
     options.UseNpgsql(dbConnectionString));

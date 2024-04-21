@@ -1,9 +1,9 @@
 using UserNameApi.Services;
 
-namespace UserNameApi.Controllers;
+namespace UserNameApi.Controllers.Workout;
 
 [ApiController]
-[Route("[controller]/[action]")]
+[Route("api/workout/[action]")]
 public class WorkoutController : ControllerBase
 {
     private readonly WorkoutService _service;
@@ -21,17 +21,17 @@ public class WorkoutController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> AddNewSessionToWorkout([FromQuery] long sessionId, [FromQuery] long workoutId)
+    public async Task<IActionResult> EndNewWorkout([FromQuery] long workoutId)
     {
-        await _service.AddNewSessionToWorkoutAsync(sessionId, workoutId);
+        await _service.EndWorkoutAsync(workoutId);
 
         return Ok();
     }
 
     [HttpGet]
-    public async Task<IActionResult> EndNewWorkout([FromQuery] long workoutId)
+    public async Task<IActionResult> RemoveWorkout([FromQuery] long workoutId)
     {
-        await _service.EndWorkoutAsync(workoutId);
+        await _service.RemoveWorkoutAsync(workoutId);
 
         return Ok();
     }
