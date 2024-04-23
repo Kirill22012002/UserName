@@ -39,4 +39,18 @@ public class WorkoutController : ControllerBase
         var result = _service.GetFullWorkoutInfo(workoutId);
         return Ok(result);
     }
+
+    [HttpGet]
+    public IActionResult GetAllFullWorkoutInfo()
+    {
+        var result = _service.GetAllFullWorkoutInfo();
+        return Ok(result);
+    }
+
+    [HttpGet]
+    public IActionResult GetAllWorkoutsByExcerciseId([FromQuery] long excerciseId)
+    {
+        var result = _service.GetAllWorkoutsByExcerciseId(excerciseId);
+        return Ok(result);
+    }
 }

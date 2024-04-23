@@ -55,11 +55,9 @@ public class WorkoutService
             EndDate = result.EndDate,
             WorkoutSessions = workoutSessions.Select(session => new WorkoutSessionViewModel
             {
-                Id = session.Id,
                 WorkoutExcerciseName = session.WorkoutExcercise.Name,
                 WorkoutSets = session.WorkoutSets.Select(set => new WorkoutSetViewModel
                 {
-                    Id = set.Id,
                     Weight = set.Weight,
                     Reps = set.Reps
                 }).ToList()
@@ -69,11 +67,77 @@ public class WorkoutService
         return viewModel;
     }
 
+    public List<WorkoutViewModel> GetAllFullWorkoutInfo()
+    {
+        var result = _dbContext.Workouts
+            .Include(x => x.WorkoutSessions)
+            .ToList();
+
+        if (result is null) return null;
+
+
+        var viewModels = result.Select(x => new WorkoutViewModel
+        {
+            Id = x.Id,
+            StartDate = x.StartDate,
+            EndDate = x.EndDate,
+            WorkoutSessions = _dbContext.WorkoutSessions
+                .Include(session => session.WorkoutExcercise)
+                .Include(session => session.WorkoutSets)
+                .Select(session => new WorkoutSessionViewModel
+                {
+                    WorkoutExcerciseName = session.WorkoutExcercise.Name,
+                    WorkoutSets = session.WorkoutSets.Select(set => new WorkoutSetViewModel
+                    {
+                        Weight = set.Weight,
+                        Reps = set.Reps
+                    }).ToList()
+                }).ToList()
+
+        }).ToList();
+
+        return viewModels;
+    }
+
+    public List<WorkoutViewModel> GetAllWorkoutsByExcerciseId(long excerciseId)
+    {
+        var sessionViewModels = _dbContext.WorkoutSessions
+            .Include(session => session.WorkoutExcercise)
+            .Include(session => session.WorkoutSets)
+            .Where(session => session.WorkoutExcercise.Id == excerciseId)
+            .Select(session => new WorkoutSessionViewModel
+            {
+                WorkoutExcerciseName = session.WorkoutExcercise.Name,
+                WorkoutSets = session.WorkoutSets.Select(set => new WorkoutSetViewModel
+                {
+                    Weight = set.Weight,
+                    Reps = set.Reps
+                }).ToList()
+            })
+            .ToList();
+
+        var result = _dbContext.Workouts
+            .Include(workout => workout.WorkoutSessions)
+            .Where(workout => workout.WorkoutSessions.Any(x => x.Id == excerciseId))
+            .Select(workout => new WorkoutViewModel
+            {
+                Id = workout.Id,
+                StartDate = workout.StartDate,
+                EndDate = workout.EndDate,
+                WorkoutSessions = sessionViewModels
+            })
+            .ToList();
+
+        return result;
+    }
+
     public async Task RemoveWorkoutAsync(long workoutId)
     {
         _dbContext.Workouts.Remove(_dbContext.Workouts.SingleOrDefault(x => x.Id == workoutId));
         await _dbContext.SaveChangesAsync();
     }
+
+    #region Private
 
     private long GetUnixTimeNow()
     {
@@ -81,4 +145,6 @@ public class WorkoutService
         long result = ((DateTimeOffset)now).ToUnixTimeSeconds();
         return result;
     }
+
+    #endregion
 }
