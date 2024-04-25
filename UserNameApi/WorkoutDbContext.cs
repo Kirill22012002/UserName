@@ -9,6 +9,8 @@ public class WorkoutDbContext : DbContext
     public DbSet<WorkoutSession> WorkoutSessions { get; set; }
     public DbSet<Workout> Workouts { get; set; }
 
+    public DbSet<User> Users { get; set; }
+
     public WorkoutDbContext(DbContextOptions options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

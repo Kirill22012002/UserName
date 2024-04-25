@@ -1,3 +1,9 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using System.Text;
 using UserNameApi;
 using UserNameApi.Services;
 
@@ -10,9 +16,33 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-string dbConnectionString = Environment.GetEnvironmentVariable("DbConnection");
+var key = Encoding.ASCII.GetBytes("my_custom_secret");
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = "https://username",
+            ValidAudience = "https://username",
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+        };
+    });
 
-//string dbConnectionString = "Host=127.0.0.1;Port=5432;Database=postgres;Username=postgres;Password=changeme";
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("UserPolicy", policy =>
+    {
+        policy.RequireClaim(ClaimTypes.NameIdentifier); // Требование наличия идентификатора пользователя в токене
+    });
+});
+
+//string dbConnectionString = Environment.GetEnvironmentVariable("DbConnection");
+
+string dbConnectionString = "Host=127.0.0.1;Port=5432;Database=postgres;Username=postgres;Password=changeme";
 
 builder.Services.AddDbContext<WorkoutDbContext>(options =>
     options.UseNpgsql(dbConnectionString));
@@ -22,6 +52,7 @@ builder.Services.AddTransient<WorkoutExcerciseService>();
 builder.Services.AddTransient<WorkoutSetService>();
 builder.Services.AddTransient<WorkoutSessionService>();
 builder.Services.AddTransient<WorkoutService>();
+builder.Services.AddTransient<UserService>();
 
 var app = builder.Build();
 
