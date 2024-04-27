@@ -1,6 +1,4 @@
-﻿using UserNameApi.Models.DbModels;
-
-namespace UserNameApi.Models.ViewModels;
+﻿namespace UserNameApi.Models.ViewModels;
 
 public class WorkoutSessionViewModel
 {

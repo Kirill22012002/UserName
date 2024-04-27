@@ -341,7 +341,7 @@ public class DataSeeder
                         {
                             WorkoutExcercise = _dbContext.WorkoutExcercises
                                 .SingleOrDefault(x => x.Name == "Тяга нижнего блока"),
-                            
+
                             WorkoutSets = new List<WorkoutSet>
                             {
                                 new WorkoutSet
@@ -416,6 +416,101 @@ public class DataSeeder
                                 new WorkoutSet
                                 {
                                     Weight = 25,
+                                    Reps = 12
+                                }
+                            }
+                        }
+                    }
+                },
+                new Workout
+                {
+                    StartDate = 1713974079,
+                    EndDate = 1713976649,
+                    WorkoutSessions = new List<WorkoutSession>
+                    {
+                        new WorkoutSession
+                        {
+                            WorkoutExcercise = _dbContext.WorkoutExcercises
+                                .SingleOrDefault(x => x.Name == "Подъём штанги на бицепс"),
+
+                            WorkoutSets = new List<WorkoutSet>
+                            {
+                                new WorkoutSet
+                                {
+                                    Weight = 15,
+                                    Reps = 12
+                                },
+                                new WorkoutSet
+                                {
+                                    Weight = 15,
+                                    Reps = 12
+                                },
+                                new WorkoutSet
+                                {
+                                    Weight = 15,
+                                    Reps = 12
+                                },
+                                new WorkoutSet
+                                {
+                                    Weight = 15,
+                                    Reps = 12
+                                }
+                            }
+                        },
+                        new WorkoutSession
+                        {
+                            WorkoutExcercise = _dbContext.WorkoutExcercises
+                                .SingleOrDefault(x => x.Name == "Разгибание рук в блоке (канатная рукоять)"),
+
+                            WorkoutSets = new List<WorkoutSet>
+                            {
+                                new WorkoutSet
+                                {
+                                    Weight = 10,
+                                    Reps = 12
+                                },
+                                new WorkoutSet
+                                {
+                                    Weight = 10,
+                                    Reps = 12
+                                },
+                                new WorkoutSet
+                                {
+                                    Weight = 10,
+                                    Reps = 12
+                                },
+                                new WorkoutSet
+                                {
+                                    Weight = 10,
+                                    Reps = 12
+                                }
+                            }
+                        },
+                        new WorkoutSession
+                        {
+                            WorkoutExcercise = _dbContext.WorkoutExcercises
+                                .SingleOrDefault(x => x.Name == "Тяга верхнего блока"),
+
+                            WorkoutSets = new List<WorkoutSet>
+                            {
+                                new WorkoutSet
+                                {
+                                    Weight = 30,
+                                    Reps = 12
+                                },
+                                new WorkoutSet
+                                {
+                                    Weight = 30,
+                                    Reps = 12
+                                },
+                                new WorkoutSet
+                                {
+                                    Weight = 30,
+                                    Reps = 12
+                                },
+                                new WorkoutSet
+                                {
+                                    Weight = 35,
                                     Reps = 12
                                 }
                             }

@@ -63,7 +63,7 @@ public class WorkoutService
                 }).ToList()
             }).ToList()
         };
-        
+
         return viewModel;
     }
 

@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography;
-namespace UserNameApi.Models.DbModels;
+﻿namespace UserNameApi.Models.DbModels;
 
 public class User : BaseModel
 {
