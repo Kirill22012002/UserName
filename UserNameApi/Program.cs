@@ -1,6 +1,4 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
@@ -36,13 +34,19 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("UserPolicy", policy =>
     {
-        policy.RequireClaim(ClaimTypes.NameIdentifier); // Требование наличия идентификатора пользователя в токене
+        policy.RequireClaim(ClaimTypes.NameIdentifier);
     });
 });
 
-//string dbConnectionString = Environment.GetEnvironmentVariable("DbConnection");
-
-string dbConnectionString = "Host=127.0.0.1;Port=5432;Database=postgres;Username=postgres;Password=changeme";
+string dbConnectionString;
+if (Environment.GetEnvironmentVariable("Environment") == "Production")
+{
+    dbConnectionString = Environment.GetEnvironmentVariable("DbConnection");
+}
+else
+{
+    dbConnectionString = "Host=127.0.0.1;Port=5432;Database=postgres;Username=postgres;Password=changeme";
+}
 
 builder.Services.AddDbContext<WorkoutDbContext>(options =>
     options.UseNpgsql(dbConnectionString));

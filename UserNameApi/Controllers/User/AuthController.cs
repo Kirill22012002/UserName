@@ -1,7 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 using UserNameApi.Models.Models;
 using UserNameApi.Services;
 
@@ -18,7 +17,7 @@ public class AuthController : ControllerBase
         _userService = userService;
     }
 
-    [HttpPost("register")]
+    /*[HttpPost("register")]
     public IActionResult Register([FromBody] RegisterModel model)
     {
         if (_userService.IsUsernameTaken(model.UserName))
@@ -45,11 +44,11 @@ public class AuthController : ControllerBase
 
         var tokenString = GenerateJWTToken(authenticatedUser);
         return Ok(new { Token = tokenString });
-    }
+    }*/
 
-    private string GenerateJWTToken(Models.DbModels.User user)
+    /*private string GenerateJWTToken(Models.DbModels.User user)
     {
-        var credentials = new SigningCredentials(_securityKey, SecurityAlgorithms.HmacSha256);
+        var credentials = new SigningCredentials("_securityKey", SecurityAlgorithms.HmacSha256);
 
         var claims = new[]
         {
@@ -66,5 +65,5 @@ public class AuthController : ControllerBase
         );
 
         return new JwtSecurityTokenHandler().WriteToken(token);
-    }
+    }*/
 }

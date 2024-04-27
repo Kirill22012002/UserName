@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 using UserNameApi.Models.DbModels;
 using UserNameApi.Models.Models;

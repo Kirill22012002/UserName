@@ -1,26 +1,22 @@
 version: '3.7'
-
 services:
-  postgres:
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_USER: your_postgres_username
-      POSTGRES_PASSWORD: your_postgres_password
-      POSTGRES_DB: UserNameDb
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-  pgadmin:
-    image: dpage/pgadmin4
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: your_email@example.com
-      PGADMIN_DEFAULT_PASSWORD: your_pgadmin_password
-    ports:
-      - "5050:80"
-
-volumes:
-  postgres_data:
+  usernameapi:
+    build:
+      context: ${USERNAMEAPI_SRC_DIR}
+      dockerfile: Dockerfile
+    expose:
+      - 3001
+    environment: 
+      - PG_STRING=${CONNECTION_STRING}
+      - VIRTUAL_PORT=3001
+      - PORT=3001
+    networks:
+      - back
+      - reverse-proxy
+ 
+  networks:
+    reverse-proxy:
+      external:
+        name: reverse-proxy
+    back:
+      driver: bridge
