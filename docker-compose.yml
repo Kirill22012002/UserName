@@ -16,10 +16,10 @@ services:
     networks:
       - back
       - reverse-proxy
- 
-  networks:
-    reverse-proxy:
-      external:
-        name: reverse-proxy
-    back:
-      driver: bridge
+
+networks:
+  reverse-proxy:
+    external:
+      name: reverse-proxy
+  back:
+    driver: bridge
