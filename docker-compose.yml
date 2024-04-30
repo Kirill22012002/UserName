@@ -3,8 +3,7 @@ services:
 
   usernameapi:
     build:
-      context: ${USERNAMEAPI_SRC_DIR}
-      dockerfile: Dockerfile
+      dockerfile: UserNameApi/Dockerfile
     expose:
       - 3001
     environment: 
