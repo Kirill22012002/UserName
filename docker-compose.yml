@@ -1,5 +1,6 @@
 version: '3.7'
 services:
+
   usernameapi:
     build:
       context: ${USERNAMEAPI_SRC_DIR}
@@ -8,6 +9,8 @@ services:
       - 3001
     environment: 
       - PG_STRING=${CONNECTION_STRING}
+      - VIRTUAL_HOST=${SERVICE_DOMAIN}
+      - LETSENCRYPT_HOST=${SERVICE_DOMAIN}
       - VIRTUAL_PORT=3001
       - PORT=3001
     networks:
