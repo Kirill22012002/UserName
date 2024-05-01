@@ -39,9 +39,9 @@ builder.Services.AddAuthorization(options =>
 });
 
 string dbConnectionString;
-if (Environment.GetEnvironmentVariable("Environment") == "Production")
+if (Environment.GetEnvironmentVariable("ENVIRONMENT") == "Production")
 {
-    dbConnectionString = Environment.GetEnvironmentVariable("DbConnection");
+    dbConnectionString = Environment.GetEnvironmentVariable("PG_CONNECTION_STRING");
 }
 else
 {
