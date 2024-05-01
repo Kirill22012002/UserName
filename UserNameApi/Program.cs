@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
+using Microsoft.OpenApi.Models;
 using System.Text;
 using UserNameApi;
+using UserNameApi.Models.DbModels;
 using UserNameApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +16,21 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var key = Encoding.ASCII.GetBytes("my_custom_secret");
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<WorkoutDbContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    // Password settings
+    options.Password.RequireDigit = false; 
+    options.Password.RequireLowercase = false; 
+    options.Password.RequireUppercase = false; 
+    options.Password.RequireNonAlphanumeric = false; 
+    options.Password.RequiredLength = 8; 
+});
+
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -24,17 +40,22 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = "https://username",
-            ValidAudience = "https://username",
-            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidIssuer = "JwtIssuer",
+            ValidAudience = "JwtIssuer",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("JwtKey"))
         };
     });
 
-builder.Services.AddAuthorization(options =>
+builder.Services.AddAuthorization();
+
+builder.Services.AddSwaggerGen(c =>
 {
-    options.AddPolicy("UserPolicy", policy =>
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        policy.RequireClaim(ClaimTypes.NameIdentifier);
+        Description = "JWT Authorization header using the Bearer scheme",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey
     });
 });
 
@@ -45,7 +66,8 @@ if (Environment.GetEnvironmentVariable("ENVIRONMENT") == "Production")
 }
 else
 {
-    dbConnectionString = "Host=127.0.0.1;Port=5432;Database=postgres;Username=postgres;Password=changeme";
+    //dbConnectionString = "Host=127.0.0.1;Port=5432;Database=postgres;Username=postgres;Password=changeme";
+    dbConnectionString = "Host=79.174.88.22;Port=15679;Database=usernamedb;Username=username;Password=DaFnA300012*HJYhnaskjha7324kjh)";
 }
 
 builder.Services.AddDbContext<WorkoutDbContext>(options =>
@@ -56,7 +78,6 @@ builder.Services.AddTransient<WorkoutExcerciseService>();
 builder.Services.AddTransient<WorkoutSetService>();
 builder.Services.AddTransient<WorkoutSessionService>();
 builder.Services.AddTransient<WorkoutService>();
-builder.Services.AddTransient<UserService>();
 
 var app = builder.Build();
 
@@ -72,6 +93,7 @@ app.UseCors(builder =>
         .AllowAnyHeader()
 );
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
