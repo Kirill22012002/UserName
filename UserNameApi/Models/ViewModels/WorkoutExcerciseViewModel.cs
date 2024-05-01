@@ -1,8 +1,10 @@
-﻿namespace UserNameApi.Models.ViewModels;
+﻿using Newtonsoft.Json;
+
+namespace UserNameApi.Models.ViewModels;
 
 public class WorkoutExcerciseViewModel
 {
-    public long Id { get; set; }
-    public string Name { get; set; }
-    public string Description { get; set; }
+    [JsonProperty("id")] public long Id { get; set; }
+    [JsonProperty("name")] public string Name { get; set; }
+    [JsonProperty("description")] public string Description { get; set; }
 }
