@@ -66,8 +66,7 @@ if (Environment.GetEnvironmentVariable("ENVIRONMENT") == "Production")
 }
 else
 {
-    //dbConnectionString = "Host=127.0.0.1;Port=5432;Database=postgres;Username=postgres;Password=changeme";
-    dbConnectionString = "Host=79.174.88.22;Port=15679;Database=usernamedb;Username=username;Password=DaFnA300012*HJYhnaskjha7324kjh)";
+    dbConnectionString = "Host=127.0.0.1;Port=5432;Database=postgres;Username=postgres;Password=changeme";
 }
 
 builder.Services.AddDbContext<WorkoutDbContext>(options =>
