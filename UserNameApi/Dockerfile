@@ -22,4 +22,6 @@ RUN dotnet publish "./UserNameApi.csproj" -c $BUILD_CONFIGURATION -o /app/publis
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+ENV ENVIRONMENT=Production
+ENV PG_CONNECTION_STRING=STR_DB
 ENTRYPOINT ["dotnet", "UserNameApi.dll"]
