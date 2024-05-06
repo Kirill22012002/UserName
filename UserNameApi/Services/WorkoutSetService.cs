@@ -10,7 +10,7 @@ public class WorkoutSetService
         _dbContext = dbContext;
     }
 
-    public async Task<long> AddSetAsync(double weight, int reps, long workoutSessionId)
+    public async Task<long> AddSetAsync(ApplicationUser user, double weight, int reps)
     {
         var newModel = new WorkoutSet
         {
@@ -20,8 +20,8 @@ public class WorkoutSetService
 
         var session = _dbContext.WorkoutSessions
             .Include(x => x.WorkoutSets)
-            .SingleOrDefault(x => x.Id == workoutSessionId);
-
+            .SingleOrDefault(x => x.Id == user.CurrentSessionId);
+         
         session.WorkoutSets.Add(newModel);
 
         _dbContext.WorkoutSets.Add(newModel);

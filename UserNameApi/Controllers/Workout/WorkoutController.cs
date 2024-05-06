@@ -1,28 +1,37 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using UserNameApi.Models.DbModels;
 using UserNameApi.Services;
 
 namespace UserNameApi.Controllers.Workout;
 
 [ApiController]
 [Route("api/workout/[action]")]
-public class WorkoutController : ControllerBase
+public class WorkoutController : BaseController
 {
     private readonly WorkoutService _service;
-    public WorkoutController(WorkoutService service)
+    public WorkoutController(
+        UserManager<ApplicationUser> userManager, 
+        WorkoutService service) : base(userManager)
     {
         _service = service;
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> StartNewWorkout()
     {
-        var result = await _service.StartNewWorkoutAsync();
+        var user = await GetCurrentUserAsync();
+        var result = await _service.StartNewWorkoutAsync(user);
         return Ok(result);
     }
 
     [HttpGet]
-    public async Task<IActionResult> EndWorkout([FromQuery] long workoutId)
+    [Authorize]
+    public async Task<IActionResult> EndWorkout()
     {
-        await _service.EndWorkoutAsync(workoutId);
+        var user = await GetCurrentUserAsync();
+        await _service.EndWorkoutAsync(user);
         return Ok();
     }
 
@@ -53,4 +62,5 @@ public class WorkoutController : ControllerBase
         var result = _service.GetAllWorkoutsByExcerciseId(excerciseId);
         return Ok(result);
     }
+
 }

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
-using System.Text;
 using UserNameApi.Models.DbModels;
 using UserNameApi.Models.ViewModels;
 
@@ -11,15 +10,25 @@ namespace UserNameApi.Controllers.User;
 
 [ApiController]
 [Route("api/user/[controller]/[action]")]
-public class AccountController : Controller
+public class AccountController : BaseController
 {
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+    public AccountController(
+        UserManager<ApplicationUser> userManager, 
+        SignInManager<ApplicationUser> signInManager) : base(userManager)
     {
         _userManager = userManager;
         _signInManager = signInManager;
+    }
+
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> Me()
+    {
+        var user = await GetCurrentUserAsync();
+        return Ok(user.Email);
     }
 
     [HttpPost]
@@ -49,14 +58,6 @@ public class AccountController : Controller
             return Ok(new { token = token });
         }
         return BadRequest("Invalid login attempt");
-    }
-
-    [HttpGet]
-    [Authorize]
-    public async Task<IActionResult> GetCurrentUser()
-    {
-        var user = await _userManager.GetUserAsync(User);
-        return Ok(user);
     }
 
     [HttpGet]

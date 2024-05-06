@@ -11,25 +11,31 @@ public class WorkoutService
         _dbContext = dbContext;
     }
 
-    public async Task<long> StartNewWorkoutAsync()
+    public async Task<long> StartNewWorkoutAsync(ApplicationUser user)
     {
         long startDate = GetUnixTimeNow();
 
         var newWorkout = new Workout
         {
+            UserId = user.Id,
             StartDate = startDate
         };
 
         _dbContext.Workouts.Add(newWorkout);
         await _dbContext.SaveChangesAsync();
+
+        user.CurrentWorkoutId = newWorkout.Id;
+        await _dbContext.SaveChangesAsync();
+
         return newWorkout.Id;
     }
 
-    public async Task EndWorkoutAsync(long workoutId)
+    public async Task EndWorkoutAsync(ApplicationUser user)
     {
-        long endDate = GetUnixTimeNow();
-        var workout = _dbContext.Workouts.SingleOrDefault(x => x.Id == workoutId);
-        workout.EndDate = endDate;
+        var currentWorkout = _dbContext.Workouts.SingleOrDefault(x => x.Id == user.CurrentWorkoutId);
+        currentWorkout.EndDate = GetUnixTimeNow();
+        user.CurrentWorkoutId = 0;
+        user.CurrentSessionId = 0;
         await _dbContext.SaveChangesAsync();
     }
 
@@ -69,34 +75,7 @@ public class WorkoutService
 
     public List<WorkoutViewModel> GetAllFullWorkoutInfo()
     {
-        var result = _dbContext.Workouts
-            .Include(x => x.WorkoutSessions)
-            .ToList();
-
-        if (result is null) return null;
-
-
-        var viewModels = result.Select(x => new WorkoutViewModel
-        {
-            Id = x.Id,
-            StartDate = x.StartDate,
-            EndDate = x.EndDate,
-            WorkoutSessions = _dbContext.WorkoutSessions
-                .Include(session => session.WorkoutExcercise)
-                .Include(session => session.WorkoutSets)
-                .Select(session => new WorkoutSessionViewModel
-                {
-                    WorkoutExcerciseName = session.WorkoutExcercise.Name,
-                    WorkoutSets = session.WorkoutSets.Select(set => new WorkoutSetViewModel
-                    {
-                        Weight = set.Weight,
-                        Reps = set.Reps
-                    }).ToList()
-                }).ToList()
-
-        }).ToList();
-
-        return viewModels;
+        throw new NotImplementedException();
     }
 
     public List<WorkoutViewModel> GetAllWorkoutsByExcerciseId(long excerciseId)

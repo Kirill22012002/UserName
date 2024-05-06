@@ -10,9 +10,9 @@ public class WorkoutSessionService
         _dbContext = dbContext;
     }
 
-    public async Task<long> AddNewSessionAsync(long excerciseId, long workoutId)
+    public async Task<long> AddNewSessionAsync(ApplicationUser user, long excerciseId)
     {
-        var workout = _dbContext.Workouts.SingleOrDefault(x => x.Id == workoutId);
+        var currentWorkout = _dbContext.Workouts.SingleOrDefault(x => x.Id == user.CurrentWorkoutId);
         var excercise = _dbContext.WorkoutExcercises.SingleOrDefault(x => x.Id == excerciseId);
 
         var newSession = new WorkoutSession
@@ -21,8 +21,12 @@ public class WorkoutSessionService
         };
 
         _dbContext.WorkoutSessions.Add(newSession);
-        workout.WorkoutSessions.Add(newSession);
+        currentWorkout.WorkoutSessions.Add(newSession);
         await _dbContext.SaveChangesAsync();
+
+        user.CurrentSessionId = newSession.Id;
+        await _dbContext.SaveChangesAsync();
+
         return newSession.Id;
     }
 
