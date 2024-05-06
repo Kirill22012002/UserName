@@ -4,5 +4,6 @@ public class Workout : BaseModel
 {
     public long StartDate { get; set; }
     public long EndDate { get; set; }
+    public string UserId { get; set; }
     public List<WorkoutSession> WorkoutSessions { get; set; } = new List<WorkoutSession>();
 }

@@ -1,21 +1,28 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using UserNameApi.Models.DbModels;
 using UserNameApi.Services;
 
 namespace UserNameApi.Controllers;
 
 [ApiController]
 [Route("api/workout/[controller]/[action]")]
-public class SessionController : ControllerBase
+public class SessionController : BaseController
 {
     private readonly WorkoutSessionService _service;
-    public SessionController(WorkoutSessionService service)
+    public SessionController(
+        UserManager<ApplicationUser> userManager,
+        WorkoutSessionService service) : base(userManager)
     {
         _service = service;
     }
 
     [HttpGet]
-    public async Task<IActionResult> AddNewSession([FromQuery] long excerciseId, [FromQuery] long workoutId)
+    [Authorize]
+    public async Task<IActionResult> AddNewSession([FromQuery] long excerciseId)
     {
-        var result = await _service.AddNewSessionAsync(excerciseId, workoutId);
+        var user = await GetCurrentUserAsync();
+        var result = await _service.AddNewSessionAsync(user, excerciseId);
         return Ok(result);
     }
 }

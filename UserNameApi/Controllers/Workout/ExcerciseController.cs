@@ -1,13 +1,17 @@
+using Microsoft.AspNetCore.Identity;
+using UserNameApi.Models.DbModels;
 using UserNameApi.Services;
 
 namespace UserNameApi.Controllers.Workout;
 
 [ApiController]
 [Route("api/workout/[controller]/[action]")]
-public class ExcerciseController : ControllerBase
+public class ExcerciseController : BaseController
 {
     private readonly WorkoutExcerciseService _service;
-    public ExcerciseController(WorkoutExcerciseService service)
+    public ExcerciseController(
+        UserManager<ApplicationUser> userManager,
+        WorkoutExcerciseService service) : base(userManager)
     {
         _service = service;
     }
