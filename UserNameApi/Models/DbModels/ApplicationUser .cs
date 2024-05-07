@@ -4,6 +4,6 @@ namespace UserNameApi.Models.DbModels;
 
 public class ApplicationUser : IdentityUser
 {
-    public long CurrentWorkoutId { get; set; }
-    public long CurrentSessionId { get; set; }
+    public string CurrentWorkoutId { get; set; }
+    public string CurrentSessionId { get; set; }
 }
