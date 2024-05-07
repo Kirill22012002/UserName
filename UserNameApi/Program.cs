@@ -23,11 +23,11 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 builder.Services.Configure<IdentityOptions>(options =>
 {
     // Password settings
-    options.Password.RequireDigit = false; 
-    options.Password.RequireLowercase = false; 
-    options.Password.RequireUppercase = false; 
-    options.Password.RequireNonAlphanumeric = false; 
-    options.Password.RequiredLength = 8; 
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 8;
 });
 
 
@@ -66,7 +66,7 @@ if (Environment.GetEnvironmentVariable("ENVIRONMENT") == "Production")
 }
 else
 {
-    dbConnectionString = "Host=127.0.0.1;Port=5432;Database=postgres;Username=postgres;Password=changeme";
+    dbConnectionString = "Host=127.0.0.1;Port=5432;Database=post;Username=postgres;Password=changeme";
 }
 
 builder.Services.AddDbContext<WorkoutDbContext>(options =>

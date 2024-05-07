@@ -1,21 +1,26 @@
+using Microsoft.AspNetCore.Identity;
+using UserNameApi.Models.DbModels;
 using UserNameApi.Services;
 
 namespace UserNameApi.Controllers;
 
 [ApiController]
 [Route("api/workout/[controller]/[action]")]
-public class SetController : ControllerBase
+public class SetController : BaseController
 {
     private readonly WorkoutSetService _service;
-    public SetController(WorkoutSetService service)
+    public SetController(
+        UserManager<ApplicationUser> userManager,
+        WorkoutSetService service) : base(userManager)
     {
         _service = service;
     }
 
     [HttpGet]
-    public async Task<IActionResult> AddSet(double weight, int reps, long workoutSessionId)
+    public async Task<IActionResult> AddSet([FromQuery] double weight, [FromQuery] int reps)
     {
-        var result = await _service.AddSetAsync(weight, reps, workoutSessionId);
+        var user = await GetCurrentUserAsync();
+        var result = await _service.AddSetAsync(user, weight, reps);
         return Ok(result);
     }
 }
